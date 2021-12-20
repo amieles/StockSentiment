@@ -1,0 +1,47 @@
+---
+title: "indivproject"
+output: html_document
+---
+
+```{r packages}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(rtweet)
+library(tidyquant)
+library(lubridate)
+```
+
+```{r, include = FALSE}
+key = "n5dd332tpKtUqrBaxkATqDmuw"
+secret = "46NFbFOIje2Y3LsSDSoUSJXXn8McoFR2O0imJf1PkLKOujbTB1"
+access = "1342016303595446272-aNhNUpp4cICZk3KnN1voKUjh7dOJrR"
+access_secret = "MvcZsKgm3IfiQglB6WOyk0hGR9I7JmyxnQeYW0eKqa9gX"
+app_name = "thee_app"
+```
+
+```{r Token, include = FALSE}
+myToken = create_token(app = app_name,
+             consumer_key = key, 
+             consumer_secret = secret,
+             access_token = access,
+             access_secret = access_secret)
+```
+
+Stock: TSLA
+Accounts: 
+Yahoo Finance 
+MarketWatch
+SeekingAlpha
+elonmusk
+```{r}
+tmls <- get_timelines(c("YahooFinance", "MarketWatch", "SeekingAlpha", "elonmusk"), n = 10000, include_rts = F)
+head(tmls)
+nrow(tmls)
+tmls1 = tmls %>% select(screen_name, status_id, created_at, text, length = display_text_width, favorite_count, retweet_count) 
+```
+
+```{r}
+write_csv(tmls1, "../data/ProjectTweets.csv")
+```
+
