@@ -2,6 +2,7 @@
 title: "Twitter Sentiment Analysis"
 output: html_document
 ---
+Hello
 In this project I will attempt to predict the price of TSLA, by analyzing sentiment
 of tweets from the previous day. Tweets will be retrieved from twitter by API calls.
 Tweets from the following Twitter accounts will be analyzed: @YahooFinance, @MarketWatch, @SeekingAlpha, @elonmusk.
