@@ -42,12 +42,12 @@ head(tmls)
     ## # A tibble: 6 × 90
     ##   user_id  status_id           created_at          screen_name  text     source 
     ##   <chr>    <chr>               <dttm>              <chr>        <chr>    <chr>  
-    ## 1 19546277 1475567404931506182 2021-12-27 20:40:58 YahooFinance “We don… Twitte…
-    ## 2 19546277 1475561587637379081 2021-12-27 20:17:51 YahooFinance “The ol… Twitte…
-    ## 3 19546277 1475553394878296082 2021-12-27 19:45:18 YahooFinance “What d… Twitte…
-    ## 4 19546277 1475552777640239108 2021-12-27 19:42:51 YahooFinance “It is … Twitte…
-    ## 5 19546277 1475548424753852421 2021-12-27 19:25:33 YahooFinance “If the… Twitte…
-    ## 6 19546277 1475541093999648777 2021-12-27 18:56:25 YahooFinance “We’re … Twitte…
+    ## 1 19546277 1475602395870679041 2021-12-27 23:00:01 YahooFinance "Nearly… Twitte…
+    ## 2 19546277 1475583612192006147 2021-12-27 21:45:22 YahooFinance "The fo… Twitte…
+    ## 3 19546277 1475582476726808585 2021-12-27 21:40:52 YahooFinance "“A shi… Twitte…
+    ## 4 19546277 1475579793915662351 2021-12-27 21:30:12 YahooFinance "The th… Twitte…
+    ## 5 19546277 1475577506715648005 2021-12-27 21:21:07 YahooFinance "S&amp;… Social…
+    ## 6 19546277 1475572873259630595 2021-12-27 21:02:42 YahooFinance "“These… Twitte…
     ## # … with 84 more variables: display_text_width <dbl>, reply_to_status_id <chr>,
     ## #   reply_to_user_id <chr>, reply_to_screen_name <chr>, is_quote <lgl>,
     ## #   is_retweet <lgl>, favorite_count <int>, retweet_count <int>,
@@ -60,7 +60,7 @@ head(tmls)
 nrow(tmls)
 ```
 
-    ## [1] 11238
+    ## [1] 10285
 
 ``` r
 tmls1 = tmls %>% select(screen_name, status_id, created_at, text, length = display_text_width, favorite_count, retweet_count) 
@@ -78,7 +78,7 @@ Read in data set.
 t <- read_csv("ProjectTweets1.csv")
 ```
 
-    ## Rows: 11238 Columns: 7
+    ## Rows: 10285 Columns: 7
 
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
@@ -137,20 +137,20 @@ sen_by_date = aggregate(cbind(TSLA, anticipation, positive, trust, fear, negativ
 sen_by_date %>% tail
 ```
 
-    ##           date TSLA anticipation positive trust fear negative sadness disgust
-    ## 158 2021-12-22    4          172      345   287  103      230      70      27
-    ## 159 2021-12-23    4          178      319   240   98      196      67      16
-    ## 160 2021-12-24    2          102      179   134   54      130      37      11
-    ## 161 2021-12-25    0           54      119    88   32       72      20       3
-    ## 162 2021-12-26    0           35       64    50   25       61       7       6
-    ## 163 2021-12-27    1          103      149   129   61      162      34      14
-    ##     joy surprise anger
-    ## 158  94       66    47
-    ## 159 115       65    64
-    ## 160  75       34    35
-    ## 161  44       24    17
-    ## 162  18       10    10
-    ## 163  43       29    33
+    ##          date TSLA anticipation positive trust fear negative sadness disgust
+    ## 64 2021-12-22    4          172      345   287  103      230      70      27
+    ## 65 2021-12-23    4          178      319   240   98      196      67      16
+    ## 66 2021-12-24    2          102      179   134   54      130      37      11
+    ## 67 2021-12-25    0           54      119    88   32       72      20       3
+    ## 68 2021-12-26    0           35       64    50   25       61       7       6
+    ## 69 2021-12-27    1          120      178   152   74      186      39      21
+    ##    joy surprise anger
+    ## 64  94       66    47
+    ## 65 115       65    64
+    ## 66  75       34    35
+    ## 67  44       24    17
+    ## 68  18       10    10
+    ## 69  50       34    37
 
 Now, use tidyquant to get stock prices from the timeframe of our data.
 
@@ -173,7 +173,7 @@ final = sen_by_date %>% left_join(stock, by = "date")
 final %>% nrow
 ```
 
-    ## [1] 163
+    ## [1] 69
 
 This chunk will lag each row’s sentiment sum to show the sentiment of
 the previous day with the price of the current day.
@@ -242,7 +242,7 @@ library(tidymodels)
     ## x dials::momentum() masks TTR::momentum()
     ## x yardstick::spec() masks readr::spec()
     ## x recipes::step()   masks stats::step()
-    ## • Use tidymodels_prefer() to resolve common conflicts.
+    ## • Learn how to get started at https://www.tidymodels.org/start/
 
 ``` r
 #read in data for modeling
@@ -269,7 +269,7 @@ d %>% head
     ##   date        TSLA anticipation positive trust  fear negative sadness disgust
     ##   <date>     <dbl>        <dbl>    <dbl> <dbl> <dbl>    <dbl>   <dbl>   <dbl>
     ## 1 2021-11-03     0            0        1     2     0        0       0       0
-    ## 2 2021-11-04     3           46      119    50    25       54      22      11
+    ## 2 2021-11-04     3           38      108    43    20       45      17      10
     ## 3 2021-11-05     0           70      168    93    38       62      31       7
     ## 4 2021-11-08     0           48       93    51    22       39      12       5
     ## 5 2021-11-09     2           64      124    61    31       59      23       7
@@ -294,7 +294,7 @@ d
     ##    date        TSLA anticipation positive trust  fear negative sadness disgust
     ##    <date>     <dbl>        <dbl>    <dbl> <dbl> <dbl>    <dbl>   <dbl>   <dbl>
     ##  1 2021-11-03     0            0        1     2     0        0       0       0
-    ##  2 2021-11-04     3           46      119    50    25       54      22      11
+    ##  2 2021-11-04     3           38      108    43    20       45      17      10
     ##  3 2021-11-05     0           70      168    93    38       62      31       7
     ##  4 2021-11-08     0           48       93    51    22       39      12       5
     ##  5 2021-11-09     2           64      124    61    31       59      23       7
@@ -302,7 +302,7 @@ d
     ##  7 2021-11-11     2           48      126    66    37       55      28       6
     ##  8 2021-11-12     2           49      107    63    29       57      25       6
     ##  9 2021-11-15     3           67      152    91    47       74      28       6
-    ## 10 2021-11-16     4           77      120    72    41       64      29       4
+    ## 10 2021-11-16     4           71      107    70    37       57      26       3
     ## # … with 26 more rows, and 21 more variables: joy <dbl>, surprise <dbl>,
     ## #   anger <dbl>, symbol <chr>, open <dbl>, high <dbl>, low <dbl>, close <dbl>,
     ## #   volume <dbl>, adjusted <dbl>, TSLA1 <dbl>, anticipation1 <dbl>,
@@ -325,7 +325,7 @@ trs %>% head
     ##   date        TSLA anticipation positive trust  fear negative sadness disgust
     ##   <date>     <dbl>        <dbl>    <dbl> <dbl> <dbl>    <dbl>   <dbl>   <dbl>
     ## 1 2021-11-03     0            0        1     2     0        0       0       0
-    ## 2 2021-11-04     3           46      119    50    25       54      22      11
+    ## 2 2021-11-04     3           38      108    43    20       45      17      10
     ## 3 2021-11-05     0           70      168    93    38       62      31       7
     ## 4 2021-11-08     0           48       93    51    22       39      12       5
     ## 5 2021-11-09     2           64      124    61    31       59      23       7
@@ -351,7 +351,7 @@ basicRecipe %>% prep() %>% juice()
     ##    <dbl>         <dbl>     <dbl>  <dbl> <dbl>     <dbl>    <dbl>    <dbl> <dbl>
     ##  1     1             2         2      2     0         2        1        0     1
     ##  2     0             0         1      2     0         0        0        0     1
-    ##  3     3            46       119     50    25        54       22       11    26
+    ##  3     3            38       108     43    20        45       17       10    24
     ##  4     0            22        36     19    11        14        3        1    13
     ##  5     0            48        93     51    22        39       12        5    20
     ##  6     2            64       124     61    31        59       23        7    39
@@ -790,20 +790,20 @@ ct %>% modeltime_accuracy() %>% select(.model_id,
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_right">1</td>
 <td class="gt_row gt_left">PROPHET W/ REGRESSORS</td>
-<td class="gt_row gt_right">51.13</td>
-<td class="gt_row gt_right">65.81</td></tr>
+<td class="gt_row gt_right">50.53</td>
+<td class="gt_row gt_right">66.14</td></tr>
     <tr><td class="gt_row gt_right">2</td>
 <td class="gt_row gt_left">PROPHET W/ XGBOOST ERRORS</td>
-<td class="gt_row gt_right">69.33</td>
-<td class="gt_row gt_right">84.86</td></tr>
+<td class="gt_row gt_right">65.58</td>
+<td class="gt_row gt_right">76.31</td></tr>
     <tr><td class="gt_row gt_right">3</td>
 <td class="gt_row gt_left">REGRESSION WITH ARIMA(1,0,0) ERRORS</td>
-<td class="gt_row gt_right">57.89</td>
-<td class="gt_row gt_right">64.03</td></tr>
+<td class="gt_row gt_right">57.51</td>
+<td class="gt_row gt_right">64.88</td></tr>
     <tr><td class="gt_row gt_right">4</td>
 <td class="gt_row gt_left">ARIMA(0,1,0) W/ XGBOOST ERRORS</td>
-<td class="gt_row gt_right">63.12</td>
-<td class="gt_row gt_right">76.08</td></tr>
+<td class="gt_row gt_right">78.60</td>
+<td class="gt_row gt_right">98.40</td></tr>
   </tbody>
   
   
@@ -816,8 +816,5 @@ Visualize the forecast for the stock prices.
 ct %>% modeltime_forecast(new_data = ts, actual_data = trs) %>% 
   plot_modeltime_forecast(.interactive = F)
 ```
-
-    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
-    ## -Inf
 
 ![](TwitterSentimentStock_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
